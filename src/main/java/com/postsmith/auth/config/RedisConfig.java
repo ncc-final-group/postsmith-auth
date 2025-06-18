@@ -19,7 +19,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.postsmith.auth.dto.UserSessionDto;
 
 @Configuration
-@EnableAutoConfiguration(exclude={RedisAutoConfiguration.class, RedisReactiveAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = { RedisAutoConfiguration.class, RedisReactiveAutoConfiguration.class })
 public class RedisConfig {
 	@Value("${spring.data.redis.host}")
 	private String host;
@@ -38,10 +38,13 @@ public class RedisConfig {
 	}
 
 	@Bean
-	ReactiveRedisOperations<String, UserSessionDto> reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
+	ReactiveRedisOperations<String, UserSessionDto> reactiveRedisTemplate() {
+		ReactiveRedisConnectionFactory rrcf = reactiveRedisConnectionFactory();
+
 		Jackson2JsonRedisSerializer<UserSessionDto> serializer = new Jackson2JsonRedisSerializer<>(UserSessionDto.class);
-		RedisSerializationContext.RedisSerializationContextBuilder<String, UserSessionDto> builder = RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
-		RedisSerializationContext<String, UserSessionDto> context = builder.value(serializer).hashValue(serializer).hashKey(serializer).build();
-		return new ReactiveRedisTemplate<>(reactiveRedisConnectionFactory, context);
+		RedisSerializationContext<String, UserSessionDto> context = RedisSerializationContext.<String, UserSessionDto>newSerializationContext(new StringRedisSerializer())
+				.value(serializer).build();
+
+		return new ReactiveRedisTemplate<String, UserSessionDto>(rrcf, context);
 	}
 }
