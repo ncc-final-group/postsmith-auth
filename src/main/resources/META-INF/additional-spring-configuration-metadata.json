@@ -1,0 +1,7 @@
+{"properties": [
+  {
+  "name": "url.base",
+  "type": "java.lang.String",
+  "description": "This is used to allow cross-origin requests from the specified URL."
+  }
+]}
