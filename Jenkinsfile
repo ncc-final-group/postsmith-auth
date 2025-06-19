@@ -42,7 +42,7 @@ spec:
                 script {
                     env.STAGE_SEQUENCE = 0
                     env.IMAGE_NAME = 'postsmith-hub.kr.ncr.ntruss.com/postsmith-auth'
-                    env.IMAGE_TAG = build.getProjectVersion('springboot')
+                    env.IMAGE_TAG = build.getProjectVersion('springboot') + "-${env.BUILD_NUMBER}"
                     withCredentials([file(credentialsId: 'postsmith_auth_application_properties', variable: 'APPLICATION_PROPERTIES')]) {
                         sh 'cp -f ${APPLICATION_PROPERTIES} ./src/main/resources/application.properties'
                     }
