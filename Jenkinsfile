@@ -67,6 +67,7 @@ spec:
                 script {
                     github.setCommitStatus("Building Container image", "CI / Image Build", "PENDING")
                     env.STAGE_SEQUENCE = 2
+                    build.setDockerfile('springboot')
                     build.image(env.IMAGE_NAME, env.IMAGE_TAG, true)
                     github.setCommitStatus("Container image built successfully", "CI / Image Build", "SUCCESS")
                 }
