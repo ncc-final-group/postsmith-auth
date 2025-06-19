@@ -26,8 +26,8 @@ public class SessionFilter implements GlobalFilter, Ordered {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		String host = exchange.getRequest().getHeaders().getFirst("Host");
-
-		List<String> allowedUris = List.of("/oauth2", "/login", "/logout");
+		
+		List<String> allowedUris = List.of("/oauth2", "/login", "/logout", "/api");
 		if (allowedUris.stream().anyMatch(uri -> exchange.getRequest().getURI().getPath().startsWith(uri))) {
 			return chain.filter(exchange);
 		}
