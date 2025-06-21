@@ -32,13 +32,4 @@ public class RedisService {
 		return reactiveRedisOps.hasKey(key);
 	}
 
-	public <T> Mono<T> getCacheValueGeneric(String key, Class<T> clazz) {
-		try {
-			return reactiveRedisOps.opsForValue().get(key).switchIfEmpty(Mono.error(new RuntimeException("No Datas for key: " + key)))
-					.flatMap(value -> Mono.just(objectMapper.convertValue(value, clazz)));
-		} catch (Exception e) {
-			e.getStackTrace();
-			return Mono.error(new RuntimeException("error occured!" + e.getMessage()));
-		}
-	}
 }
